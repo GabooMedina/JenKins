@@ -12,14 +12,14 @@ pipeline {
         stage('Construir Imagen Docker') {
             steps {
                 // Construir la imagen Docker con los archivos del repositorio clonado
-                sh 'docker build -t proyecto .' // Añadido el punto al final
+                bat 'docker build -t proyecto .' // Comando para Windows
             }
         }
 
         stage('Ejecutar Contenedor') {
             steps {
                 // Ejecutar el contenedor en el puerto 3000
-                sh 'docker run -d -p 3000:3000 proyecto'
+                bat 'docker run -d -p 3000:3000 proyecto' // Comando para Windows
             }
         }
     }
@@ -27,7 +27,7 @@ pipeline {
     post {
         always {
             // Limpieza general después de cada ejecución
-            sh 'docker system prune -f'
+            bat 'docker system prune -f' // Comando para Windows
         }
     }
 }
