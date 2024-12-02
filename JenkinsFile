@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'jenkins-node-app'
+        DOCKER_TAG = 'latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clonar el repositorio desde GitHub
+                git 'https://github.com/tu_usuario/tu_repositorio.git'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Construir la imagen Docker
+                    sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Correr el contenedor Docker
+                    sh 'docker run -d -p 3000:3000 $DOCKER_IMAGE:$DOCKER_TAG'
+                }
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                script {
+                    // Eliminar el contenedor después de la ejecución
+                    sh 'docker ps -q | xargs docker stop | xargs docker rm'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Limpiar imágenes Docker no necesarias
+            sh 'docker system prune -f'
+        }
+    }
+}
