@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clonar el repositorio desde GitHub
-                git 'https://github.com/tu_usuario/tu_repositorio.git'
+                git 'https://github.com/GabooMedina/JenKins.git'
             }
         }
         
