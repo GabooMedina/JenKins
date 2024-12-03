@@ -19,7 +19,7 @@ pipeline {
         stage('Ejecutar Contenedor') {
             steps {
                 // Ejecutar el contenedor en el puerto 8081
-        bat 'docker run -d -p 8081:80 proyecto' // Comando para Windows
+        bat 'docker run -d -p 8080:80 proyecto' // Comando para Windows
             }
         }
     }
