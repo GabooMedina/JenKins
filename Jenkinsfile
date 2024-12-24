@@ -16,10 +16,19 @@ pipeline {
             }
         }
 
+        stage('Detener y Eliminar Contenedor Anterior') {
+            steps {
+                // Detener y eliminar el contenedor anterior si existe
+                bat '''
+                docker ps -q -f "name=proyecto" | findstr . && docker stop proyecto && docker rm proyecto || echo "No hay contenedor en ejecución"
+                '''
+            }
+        }
+
         stage('Ejecutar Contenedor') {
             steps {
                 // Ejecutar el contenedor en el puerto 8081
-                bat 'docker run -d -p 8081:80 proyecto' // Comando para Windows
+                bat 'docker run -d -p 8081:80 --name proyecto proyecto' // Comando para Windows
             }
         }
 
